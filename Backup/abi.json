@@ -1,0 +1,284 @@
+[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_currentAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_musicIpfs",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_musicName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_duration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_language",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_genre",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ipfsSongImage",
+				"type": "string"
+			}
+		],
+		"name": "addSong",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "_currentAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_musicIpfs",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_musicName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_duration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_language",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_genre",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_ipfsSongImage",
+				"type": "string"
+			}
+		],
+		"name": "setSong",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getSong",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_musicName",
+				"type": "string"
+			}
+		],
+		"name": "getSongByMusicName",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_language",
+				"type": "string"
+			}
+		],
+		"name": "getSongsByLanguage",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "songs",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "currentAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "musicIpfs",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "musicName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "duration",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "language",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "artistName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "genre",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "ipfsSongImage",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
