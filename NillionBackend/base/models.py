@@ -35,3 +35,12 @@ class Message(models.Model):
 
     def __str__(self):
         return f'{self.sender_address}: {self.content[:20]}...'
+
+class Rejectd(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    from_address = models.EmailField()
+    rejected_address = models.EmailField()
+    datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Rejected from {self.from_address} to {self.rejected_address} on {self.datetime}"

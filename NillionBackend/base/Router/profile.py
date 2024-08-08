@@ -1,8 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from base.models import Profile
-from base.profiles.serializers import ProfileSerializer
+from base.models import Profile, Rejectd
+from base.profiles.serializers import ProfileSerializer, RejectdSerializer
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
@@ -29,7 +29,7 @@ def get_profile_by_address(request, address):
         serializer = ProfileSerializer(profile)
         return Response(serializer.data)
     except Profile.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
 
 @api_view(['GET'])
 def get_matching_profiles(request, address):

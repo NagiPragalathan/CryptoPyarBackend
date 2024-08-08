@@ -16,13 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from base.views import *
+# from base.views import *
 from base.Router.profile import *
 from base.Router.chat import *
+from base.Router.Reject import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('store-program', store_program_view, name='store-program'),
+    # path('store-program', store_program_view, name='store-program'),
 ]
 
 profiles = [
@@ -36,5 +38,15 @@ chat = [
     path('create_chat/', create_chat, name='create_chat'),
     path('send_message/', send_message, name='send_message'),
 ]
+
+RejectedProfile = [
+    path('api/rejectd/', create_rejectd, name='create_rejectd'),
+    path('api/rejectd/all/', get_all_rejectd, name='get_all_rejectd'),
+    path('api/rejectd/<uuid:id>/', get_rejectd, name='get_rejectd'),
+    path('api/rejectd/<uuid:id>/update/', update_rejectd, name='update_rejectd'),
+    path('api/rejectd/<uuid:id>/delete/', delete_rejectd, name='delete_rejectd'),
+]
+
 urlpatterns+=profiles
 urlpatterns+=chat
+urlpatterns+=RejectedProfile

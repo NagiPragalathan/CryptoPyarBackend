@@ -1,10 +1,10 @@
 import requests
 
-BASE_URL = 'http://127.0.0.1:8000/'
+BASE_URL = 'https://crypto-pyar-backend.vercel.app/'
 
 # Test data for creating a profile
 profile_data = {
-    "address": "123 Unique Street",
+    "address": "asd",
     "name": "John Doe",
     "photo": ["photo1.jpg", "photo2.jpg"],
     "location": "City",
