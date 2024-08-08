@@ -1,49 +1,49 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from base.models import Rejectd
-from base.profiles.serializers import RejectdSerializer
+from base.models import Favorites
+from base.profiles.serializers import FavoritesSerializer
 
 @api_view(['POST'])
-def create_rejectd(request):
-    serializer = RejectdSerializer(data=request.data)
+def create_favorite(request):
+    serializer = FavoritesSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
-def get_all_rejectd(request):
-    rejectds = Rejectd.objects.all()
-    serializer = RejectdSerializer(rejectds, many=True)
+def get_all_favorites(request):
+    favorites = Favorites.objects.all()
+    serializer = FavoritesSerializer(favorites, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
-def get_rejectd(request, from_address):
+def get_favorite(request, to_address):
     try:
-        rejectd = Rejectd.objects.get(from_address=from_address)
-    except Rejectd.DoesNotExist:
+        favorite = Favorites.objects.get(to_address=to_address)
+    except Favorites.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = RejectdSerializer(rejectd)
+    serializer = FavoritesSerializer(favorite)
     return Response(serializer.data)
 
 @api_view(['PUT'])
-def update_rejectd(request, from_address):
+def update_favorite(request, to_address):
     try:
-        rejectd = Rejectd.objects.get(from_address=from_address)
-    except Rejectd.DoesNotExist:
+        favorite = Favorites.objects.get(to_address=to_address)
+    except Favorites.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = RejectdSerializer(rejectd, data=request.data)
+    serializer = FavoritesSerializer(favorite, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
-def delete_rejectd(request, from_address):
+def delete_favorite(request, to_address):
     try:
-        rejectd = Rejectd.objects.get(from_address=from_address)
-    except Rejectd.DoesNotExist:
+        favorite = Favorites.objects.get(to_address=to_address)
+    except Favorites.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    rejectd.delete()
+    favorite.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)

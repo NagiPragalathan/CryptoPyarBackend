@@ -44,3 +44,14 @@ class Rejectd(models.Model):
 
     def __str__(self):
         return f"Rejected from {self.from_address} to {self.rejected_address} on {self.datetime}"
+
+class Favorites(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    from_address = models.EmailField()
+    to_address = models.EmailField()
+    accept_status = models.BooleanField(default=False)
+    last_updated_time = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Favorite from {self.from_address} to {self.to_address} - Status: {'Accepted' if self.accept_status else 'Pending'}"
+    

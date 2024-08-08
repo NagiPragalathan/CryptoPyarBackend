@@ -1,7 +1,7 @@
 """
 URL configuration for NillionBackend project.
 
-The `urlpatterns` list routes URLs to views. For more information please see:
+The `urlpatterns` list routes URLs to  For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
 Examples:
 Function views
@@ -20,6 +20,7 @@ from django.urls import path
 from base.Router.profile import *
 from base.Router.chat import *
 from base.Router.Reject import *
+from base.Router.Favorites import *
 
 
 urlpatterns = [
@@ -42,11 +43,21 @@ chat = [
 RejectedProfile = [
     path('api/rejectd/', create_rejectd, name='create_rejectd'),
     path('api/rejectd/all/', get_all_rejectd, name='get_all_rejectd'),
-    path('api/rejectd/<uuid:id>/', get_rejectd, name='get_rejectd'),
-    path('api/rejectd/<uuid:id>/update/', update_rejectd, name='update_rejectd'),
-    path('api/rejectd/<uuid:id>/delete/', delete_rejectd, name='delete_rejectd'),
+    path('api/rejectd/<str:from_address>/', get_rejectd, name='get_rejectd'),
+    path('api/rejectd/<str:from_address>/update/', update_rejectd, name='update_rejectd'),
+    path('api/rejectd/<str:from_address>/delete/', delete_rejectd, name='delete_rejectd'),
+]
+
+
+FavoriteProfile = [
+    path('api/favorites/', create_favorite, name='create_favorite'),
+    path('api/favorites/all/', get_all_favorites, name='get_all_favorites'),
+    path('api/favorites/<str:to_address>/', get_favorite, name='get_favorite'),
+    path('api/favorites/<str:to_address>/update/', update_favorite, name='update_favorite'),
+    path('api/favorites/<str:to_address>/delete/', delete_favorite, name='delete_favorite'),
 ]
 
 urlpatterns+=profiles
 urlpatterns+=chat
 urlpatterns+=RejectedProfile
+urlpatterns+=FavoriteProfile
