@@ -2,7 +2,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from base.models import Favorites
-from base.profiles.serializers import FavoritesSerializer
+from base.profiles.serializers import FavoritesSerializer, ProfileSerializer
+
 
 @api_view(['POST'])
 def create_favorite(request):
@@ -47,3 +48,17 @@ def delete_favorite(request, to_address):
         return Response(status=status.HTTP_404_NOT_FOUND)
     favorite.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def get_favorites_details(request, address):
+    try:
+        favorites = Favorites.objects.filter(to_address=address)
+        if not favorites.exists():
+            return Response({"detail": "No favorites found for this address."}, status=status.HTTP_404_NOT_FOUND)
+        
+        profile_addresses = [fav.from_address for fav in favorites]
+        profiles = Profile.objects.filter(address__in=profile_addresses)
+        serializer = ProfileSerializer(profiles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Profile.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
