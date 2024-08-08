@@ -37,9 +37,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'base'
+    'base',
+    'drf_spectacular'
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Favorites API',
+    'DESCRIPTION': 'API documentation for the Favorites application',
+    'VERSION': '1.0.0',
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

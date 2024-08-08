@@ -1,31 +1,25 @@
-"""
-URL configuration for NillionBackend project.
-
-The `urlpatterns` list routes URLs to  For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
-# from base.views import *
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
 from base.Router.profile import *
 from base.Router.chat import *
 from base.Router.Reject import *
 from base.Router.Favorites import *
+from django.shortcuts import redirect
 
+def redirect_to_swagger(request):
+    return redirect('/api/schema/swagger-ui/')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('store-program', store_program_view, name='store-program'),
+    path('', redirect_to_swagger),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]
 
 profiles = [
@@ -48,7 +42,6 @@ RejectedProfile = [
     path('api/rejectd/<str:from_address>/delete/', delete_rejectd, name='delete_rejectd'),
 ]
 
-
 FavoriteProfile = [
     path('api/favorites/', create_favorite, name='create_favorite'),
     path('api/favorites/all/', get_all_favorites, name='get_all_favorites'),
@@ -57,7 +50,7 @@ FavoriteProfile = [
     path('api/favorites/<str:to_address>/delete/', delete_favorite, name='delete_favorite'),
 ]
 
-urlpatterns+=profiles
-urlpatterns+=chat
-urlpatterns+=RejectedProfile
-urlpatterns+=FavoriteProfile
+urlpatterns += profiles
+urlpatterns += chat
+urlpatterns += RejectedProfile
+urlpatterns += FavoriteProfile
