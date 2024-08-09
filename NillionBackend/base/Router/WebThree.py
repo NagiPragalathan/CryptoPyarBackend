@@ -12,7 +12,7 @@ def send_chat_to_blockchain(chat_id, sender_address, content, endpoint):
 	w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
 
-	contract_address = "0x59009D0a30CF0ccCC2780a618fc862d0A13EaB70"  
+	contract_address = "0xDdf9733295E6513a99680555C259D0A3caD26f17"  
 	user_address = "0xB022BDdd12168BaaB3022E87500d2C71E8109264" 
 	private_key = "09a670370d9096c270d3a049e79696859e0ca6eb07866a7d77c3c6ccca9435ca" 
 
@@ -55,7 +55,7 @@ def StoreMusic(current_address, music_ipfs, music_name, duration, language, arti
     # Inject the POA middleware (for Polygon or other chains that require it)
     w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
-    contract_address = "0x59009D0a30CF0ccCC2780a618fc862d0A13EaB70"  
+    contract_address = "0xDdf9733295E6513a99680555C259D0A3caD26f17"  
     user_address = "0xB022BDdd12168BaaB3022E87500d2C71E8109264" 
     private_key = "09a670370d9096c270d3a049e79696859e0ca6eb07866a7d77c3c6ccca9435ca" 
 

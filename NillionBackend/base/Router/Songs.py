@@ -22,8 +22,15 @@ def upload_to_ipfs(file_path, file_type):
         }
 
         response = requests.post(url, files=files, headers=headers)
-        ipfs_url = response.json().get("ipfs_storage", {}).get("ipfs_url")
-        return ipfs_url
+        
+        try:
+            # Attempt to parse the JSON response
+            ipfs_url = response.json().get("ipfs_storage", {}).get("ipfs_url")
+            return ipfs_url
+        except requests.exceptions.JSONDecodeError:
+            # If JSON decoding fails, log the response for debugging
+            print(f"Failed to decode JSON: {response.text}")
+            return None
 
 def upload_song(request, address):
     if request.method == 'POST':
