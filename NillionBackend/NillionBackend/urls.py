@@ -22,7 +22,7 @@ urlpatterns = [
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
-    path("create",store_program_view, nmae="create")
+    path("create",store_program_view, name="create")
 ]
 
 profiles = [
