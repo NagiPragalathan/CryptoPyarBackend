@@ -50,10 +50,10 @@ def delete_favorite(request, to_address):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
-def get_favorites_details(request, address):
+def get_favorites_details(request, to_address):
     try:
         # Fetch all favorites for the given address
-        favorites = Favorites.objects.filter(to_address=address)
+        favorites = Favorites.objects.filter(to_address=to_address)
         if not favorites.exists():
             return Response({"detail": "No favorites found for this address."}, status=status.HTTP_404_NOT_FOUND)
         
