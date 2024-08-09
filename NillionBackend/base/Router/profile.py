@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from base.models import Profile, Rejectd
 from base.profiles.serializers import ProfileSerializer, RejectdSerializer
+from django.core.exceptions import ValidationError
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
