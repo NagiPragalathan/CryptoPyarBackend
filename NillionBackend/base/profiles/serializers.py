@@ -11,7 +11,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Address must be unique.")
         return value
 
-
 class MessageSerializer(serializers.ModelSerializer):
     sender = ProfileSerializer(read_only=True)
 
@@ -35,4 +34,14 @@ class RejectdSerializer(serializers.ModelSerializer):
 class FavoritesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorites
+        fields = '__all__'
+        
+class ChatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields = '__all__'
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
         fields = '__all__'

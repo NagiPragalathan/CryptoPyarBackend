@@ -24,13 +24,16 @@ class Profile(models.Model):
 
 class Chat(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    participant_addresses = models.JSONField()  # Storing participant addresses
+    endpoint = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
 
 class Message(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    chat_id = models.UUIDField()  # Store Chat ID as a UUID
+    chat_id = models.UUIDField()
     sender_address = models.CharField(max_length=255)
     content = models.TextField()
+    transaction = models.TextField()
+    endpoint = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

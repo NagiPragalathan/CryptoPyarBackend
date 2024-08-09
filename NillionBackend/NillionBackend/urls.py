@@ -31,8 +31,7 @@ profiles = [
 ]
 
 chat = [
-    path('chat/create_chat/', create_chat, name='create_chat'),
-    path('chat/send_message/', send_message, name='send_message'),
+    path('chat/<str:address>/<str:endpoint>/', chat_room, name='chat_room'),
 ]
 
 RejectedProfile = [

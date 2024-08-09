@@ -47,8 +47,36 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Favorites API',
-    'DESCRIPTION': 'API documentation for the Favorites application',
+    'DESCRIPTION': 'API documentation for the CryptoPyar application',
     'VERSION': '1.0.0',
+    'CONTACT': {
+        'name': 'Support Team',
+        'url': 'https://www.cryptopyar.com/support',
+        'email': 'support@cryptopyar.com',
+    },
+    'LICENSE': {
+        'name': 'BSD License',
+        'url': 'https://opensource.org/licenses/BSD-3-Clause',
+    },
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SCHEMA_PATH_PREFIX': '/api/v1',
+    'SERVE_PERMISSIONS': ['rest_framework.permissions.AllowAny'],
+    'APPEND_COMPONENTS': {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+            }
+        }
+    },
+    'SECURITY': [{
+        "bearerAuth": []
+    }],
+    'EXTERNAL_DOCS': {
+        'description': 'Find more info here',
+        'url': 'https://www.cryptopyar.com/docs',
+    },
 }
 
 MIDDLEWARE = [
@@ -79,7 +107,7 @@ ROOT_URLCONF = 'NillionBackend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
