@@ -10,11 +10,66 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
 @api_view(['POST'])
 def create_profile(request):
-    serializer = ProfileSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Extract data from the request
+    address = request.data.get('address')
+    name = request.data.get('name')
+    photo = request.data.get('photo')
+    location = request.data.get('location')
+    gender = request.data.get('gender')
+    age = request.data.get('age')
+    interest = request.data.get('interest')
+    looking_for = request.data.get('looking_for')
+    bio = request.data.get('bio')
+    work = request.data.get('work')
+    edu = request.data.get('edu')
+    zodiac = request.data.get('zodiac')
+    
+    # Validate required fields
+    required_fields = [
+        'address', 'name', 'photo', 'location', 'gender', 'age',
+        'interest', 'looking_for', 'bio', 'work', 'edu', 'zodiac'
+    ]
+    missing_fields = [field for field in required_fields if not request.data.get(field)]
+    
+    if missing_fields:
+        return Response(
+            {"error": "Missing required fields", "fields": missing_fields},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    # Create and save the profile
+    try:
+        profile = Profile(
+            address=address,
+            name=name,
+            photo=photo,
+            location=location,
+            gender=gender,
+            age=age,
+            interest=interest,
+            looking_for=looking_for,
+            bio=bio,
+            work=work,
+            edu=edu,
+            zodiac=zodiac
+        )
+        profile.save()
+        
+        return Response(
+            {"message": "Profile created successfully", "profile": profile.id},
+            status=status.HTTP_201_CREATED
+        )
+    except ValidationError as e:
+        return Response(
+            {"error": "Validation error", "details": str(e)},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    except Exception as e:
+        # Log the exception if needed
+        return Response(
+            {"error": "Internal server error", "details": str(e)},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
 
 @api_view(['GET'])
 def get_all_profiles(request):
