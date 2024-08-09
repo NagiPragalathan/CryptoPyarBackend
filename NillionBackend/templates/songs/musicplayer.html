@@ -6,51 +6,71 @@
     <title>Music Player</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .player-container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            width: 100%;
+            background-color: #1f1f1f;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 90%;
             text-align: center;
         }
 
-        .player-container h1 {
-            font-size: 24px;
+        .player-container img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
             margin-bottom: 20px;
-            color: #333333;
+        }
+
+        .player-container h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .player-container h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #bbbbbb;
         }
 
         .audio-player {
             width: 100%;
             margin-bottom: 20px;
+            outline: none;
         }
 
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 20px;
         }
 
         .controls button {
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 15px;
             border-radius: 50%;
-            font-size: 16px;
+            font-size: 20px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            width: 60px;
+            height: 60px;
         }
 
         .controls button:hover {
@@ -64,8 +84,8 @@
 
         .time {
             margin-top: 10px;
-            font-size: 14px;
-            color: #666666;
+            font-size: 16px;
+            color: #bbbbbb;
         }
 
         /* Popup styles */
@@ -76,63 +96,102 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.9);
             justify-content: center;
             align-items: center;
             z-index: 1000;
         }
 
         .popup-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 400px;
+            background-color: #1f1f1f;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 600px;
             width: 90%;
         }
 
         .popup-content h2 {
             margin-top: 0;
             margin-bottom: 15px;
-            font-size: 20px;
-            color: #333333;
+            font-size: 28px;
+            color: #ffffff;
         }
 
         .popup-content ul {
             list-style-type: none;
             padding: 0;
             margin: 0;
+            max-height: 400px;
+            overflow-y: auto;
         }
 
         .popup-content li {
-            padding: 10px;
+            padding: 15px;
             cursor: pointer;
-            background-color: #f9f9f9;
-            margin-bottom: 5px;
-            border-radius: 5px;
+            background-color: #333333;
+            margin-bottom: 10px;
+            border-radius: 10px;
             transition: background-color 0.3s ease;
-            font-size: 16px;
-            color: #333333;
+            font-size: 18px;
+            color: #ffffff;
         }
 
         .popup-content li:hover {
-            background-color: #e0e0e0;
+            background-color: #444444;
+        }
+
+        .popup-content .song-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .popup-content img {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+        }
+
+        .popup-content .song-info {
+            flex: 1;
+        }
+
+        .popup-content .song-info p {
+            margin: 5px 0;
         }
 
         .close-popup {
             background-color: #FF4F4F;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 10px 15px;
+            border-radius: 10px;
             cursor: pointer;
             float: right;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-container input {
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+            border-radius: 10px;
+            border: none;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
 <div class="player-container">
-    <h1>Music Player</h1>
+    <img id="songImage" src="" alt="Album Art" style="width: 150px;">
+    <h1 id="songTitle">Song Title</h1>
+    <h2 id="songArtist">Artist Name</h2>
     <audio id="audioPlayer" class="audio-player" controls>
         <source id="audioSource" src="" type="audio/mp3">
         Your browser does not support the audio element.
@@ -155,6 +214,9 @@
     <div class="popup-content">
         <button class="close-popup" onclick="hidePopup()">Close</button>
         <h2>Select a Song</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for songs..." onkeyup="searchSongs()">
+        </div>
         <ul id="songList">
             <!-- Song list items will be added here dynamically -->
         </ul>
@@ -162,37 +224,53 @@
 </div>
 
 <script>
-    // Fetch tracks from the server
     const tracks = {{ songs|safe }};  // Assuming the songs are passed from the server as a JSON object
 
     let currentTrackIndex = 0;
 
     const audio = document.getElementById('audioPlayer');
     const audioSource = document.getElementById('audioSource');
+    const songImage = document.getElementById('songImage');
+    const songTitle = document.getElementById('songTitle');
+    const songArtist = document.getElementById('songArtist');
     const playButton = document.getElementById('playButton');
     const pauseButton = document.getElementById('pauseButton');
     const stopButton = document.getElementById('stopButton');
     const prevButton = document.getElementById('prevButton');
     const nextButton = document.getElementById('nextButton');
-    const listButton = document.getElementById('listButton');
     const currentTimeElement = document.getElementById('currentTime');
     const durationTimeElement = document.getElementById('durationTime');
     const popup = document.getElementById('popup');
     const songList = document.getElementById('songList');
+    const searchInput = document.getElementById('searchInput');
 
     // Load songs into the popup list
     function loadSongList() {
         songList.innerHTML = '';
         tracks.forEach((track, index) => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${track.music_name} - ${track.artist_name}`;
+            listItem.classList.add('song-item');
+            listItem.innerHTML = `
+                <div class="song-details">
+                    <img src="${track.ipfs_song_image}" alt="Album Art">
+                    <div class="song-info">
+                        <p><strong>${track.music_name}</strong></p>
+                        <p>${track.artist_name} - ${track.genre}</p>
+                        <p>Duration: ${formatTime(track.duration)}</p>
+                    </div>
+                </div>
+            `;
             listItem.onclick = () => selectTrack(index);
             songList.appendChild(listItem);
         });
     }
 
     function loadTrack(index) {
-        audioSource.src = tracks[index].music_ipfs;
+        const track = tracks[index];
+        audioSource.src = track.music_ipfs;
+        songImage.src = track.ipfs_song_image || 'https://static.vecteezy.com/system/resources/thumbnails/010/063/543/small_2x/music-festival-colorful-icon-with-notes-and-the-inscription-music-3d-render-png.png';  // Provide a default image if none is available
+        songTitle.textContent = track.music_name;
+        songArtist.textContent = track.artist_name;
         audio.load();
         playAudio();
     }
@@ -264,6 +342,23 @@
         currentTrackIndex = index;
         loadTrack(index);
         hidePopup();
+    }
+
+    // Search for songs in the list
+    function searchSongs() {
+        const filter = searchInput.value.toLowerCase();
+        const songItems = document.getElementsByClassName('song-item');
+
+        for (let i = 0; i < songItems.length; i++) {
+            const songName = songItems[i].querySelector('.song-info strong').textContent.toLowerCase();
+            const artistName = songItems[i].querySelector('.song-info p:nth-child(2)').textContent.toLowerCase();
+
+            if (songName.includes(filter) || artistName.includes(filter)) {
+                songItems[i].style.display = '';
+            } else {
+                songItems[i].style.display = 'none';
+            }
+        }
     }
 
     // Load the first track initially
