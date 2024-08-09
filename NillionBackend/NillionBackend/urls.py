@@ -11,6 +11,7 @@ from base.Router.Reject import *
 from base.Router.Favorites import *
 from base.Router.Songs import *
 from django.shortcuts import redirect
+from base.views import *
 
 def redirect_to_swagger(request):
     return redirect('/schema/swagger-ui/')
@@ -21,6 +22,7 @@ urlpatterns = [
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path("create",store_program_view, nmae="create")
 ]
 
 profiles = [
