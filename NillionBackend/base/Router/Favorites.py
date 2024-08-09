@@ -15,17 +15,17 @@ def create_favorite(request):
 
 @api_view(['GET'])
 def get_all_favorites(request):
-    # Use distinct to remove duplicates based on `from_address` and `to_address`
-    favorites = Favorites.objects.all().distinct('from_address', 'to_address')
+    favorites = Favorites.objects.all()
     serializer = FavoritesSerializer(favorites, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def get_favorite(request, to_address):
-    favorites = Favorites.objects.filter(to_address=to_address).distinct('from_address', 'to_address')
-    if not favorites.exists():
+    try:
+        favorite = Favorites.objects.get(to_address=to_address)
+    except Favorites.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = FavoritesSerializer(favorites, many=True)
+    serializer = FavoritesSerializer(favorite)
     return Response(serializer.data)
 
 @api_view(['PUT'])
@@ -53,17 +53,17 @@ def delete_favorite(request, to_address):
 def get_favorites_details(request, to_address):
     try:
         # Fetch all favorites for the given address
-        favorites = Favorites.objects.filter(to_address=to_address)
-        if not favorites.exists():
+        favorites = list(Favorites.objects.filter(to_address=to_address))
+        if not favorites:
             return Response({"detail": "No favorites found for this address."}, status=status.HTTP_404_NOT_FOUND)
         
-        # Create a set of unique profile addresses to avoid duplicates
-        profile_addresses = list(set(fav.from_address for fav in favorites))
+        # Extract profile addresses
+        profile_addresses = [fav.from_address for fav in favorites]
         
         # Query the Profile model using the unique addresses
         profiles = Profile.objects.filter(address__in=profile_addresses)
         serializer = ProfileSerializer(profiles, many=True)
         
         return Response(serializer.data, status=status.HTTP_200_OK)
-    except Profile.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
