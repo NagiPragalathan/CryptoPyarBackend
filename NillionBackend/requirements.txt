@@ -15,3 +15,5 @@ nillion_python_helpers
 django-cors-headers
 djangorestframework
 drf-spectacular
+web3
+pyperp
