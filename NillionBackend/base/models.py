@@ -41,8 +41,8 @@ class Message(models.Model):
 
 class Rejectd(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    from_address = models.EmailField()
-    rejected_address = models.EmailField()
+    from_address = models.CharField(max_length=255)
+    rejected_address = models.CharField(max_length=255)
     datetime = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -50,11 +50,23 @@ class Rejectd(models.Model):
 
 class Favorites(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    from_address = models.EmailField()
-    to_address = models.EmailField()
+    from_address = models.CharField(max_length=255)
+    to_address = models.CharField(max_length=255)
     accept_status = models.BooleanField(default=False)
     last_updated_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Favorite from {self.from_address} to {self.to_address} - Status: {'Accepted' if self.accept_status else 'Pending'}"
-    
+
+class Song(models.Model):
+    current_address = models.CharField(max_length=42)  # Ethereum addresses are 42 characters long
+    music_ipfs = models.CharField(max_length=255)
+    music_name = models.CharField(max_length=255)
+    duration = models.PositiveIntegerField()  # Assuming duration is in seconds
+    language = models.CharField(max_length=50)
+    artist_name = models.CharField(max_length=255)
+    genre = models.CharField(max_length=100)
+    ipfs_song_image = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.music_name

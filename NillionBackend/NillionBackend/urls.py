@@ -9,6 +9,7 @@ from base.Router.profile import *
 from base.Router.chat import *
 from base.Router.Reject import *
 from base.Router.Favorites import *
+from base.Router.Songs import *
 from django.shortcuts import redirect
 
 def redirect_to_swagger(request):
