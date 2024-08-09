@@ -80,24 +80,24 @@
                 }
             });
         }
-
+    
         function scrollToBottom() {
             let divElement = document.getElementById('messages');
             divElement.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
-
+    
         $(document).ready(function() {
             fetchMessages();  // Fetch initial messages
-            setInterval(fetchMessages, 5000);  // Poll every second
-
+            setInterval(fetchMessages, 9000);  // Poll every 9 seconds
+    
             $('#sendForm').on('submit', function(event) {
                 event.preventDefault();
                 var messageContent = $('#messageInput').val();
                 var senderAddress = "{{ address }}";  // Use the address directly from the template
                 var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
-
+    
                 var alignment = 'justify-end';  // Since senderAddress === "{{ address }}" is always true for user's message
-
+    
                 // Add message to the list with loading icon
                 var messageElement = $('<div class="col-start-6 col-end-13 p-3 rounded-lg flex ' + alignment + '">')
                     .html(
@@ -105,7 +105,7 @@
                           messageContent + ' <span class="loading-icon"></span> <span class="processing-text">Processing...</span></div>');
                 $('#messages').append(messageElement);
                 scrollToBottom();
-
+    
                 $.ajax({
                     url: window.location.href,
                     type: 'POST',
@@ -115,39 +115,50 @@
                         'csrfmiddlewaretoken': csrfToken
                     },
                     success: function(data) {
-                        // Poll the server until the transaction is confirmed
+                        // Poll the server until all transactions are confirmed
+                        const maxIntervals = 5;  // Maximum number of intervals (adjust as necessary)
+                        let completedIntervals = 0;
+    
                         const checkTransaction = setInterval(function() {
                             $.ajax({
                                 url: '/check-transaction/',  // This endpoint should check the transaction status
                                 type: 'POST',
                                 data: { 'transaction_hash': data.transaction_hash, 'csrfmiddlewaretoken': csrfToken },
                                 success: function(statusData) {
+                                    completedIntervals += 1;
                                     if (statusData.status === 'confirmed') {
-                                        fetchMessages();  // Fetch the messages to update the UI
-                                        clearInterval(checkTransaction);
-                                        print("Done.!")
-                                        messageElement.find('span.loading-icon').removeClass('loading-icon').addClass('success-icon');
-                                        messageElement.find('span.processing-text').remove();  // Remove "Processing..." text
-                                        $('#messageInput').val('');  // Clear the input box
-                                        scrollToBottom();
+                                        if (completedIntervals >= maxIntervals) {
+                                            clearInterval(checkTransaction);
+                                            messageElement.find('span.loading-icon').removeClass('loading-icon').addClass('success-icon');
+                                            messageElement.find('span.processing-text').remove();  // Remove "Processing..." text
+                                            fetchMessages();  // Fetch the messages to update the UI
+                                            $('#messageInput').val('');  // Clear the input box
+                                            scrollToBottom();
+                                        }
                                     } else if (statusData.status === 'failed') {
                                         clearInterval(checkTransaction);
-                                        // messageElement.find('span.loading-icon').removeClass('loading-icon').addClass('error-icon');
                                         messageElement.find('span.processing-text').text('Failed');  // Update "Processing..." to "Failed"
+                                        scrollToBottom();
+                                    }
+    
+                                    if (completedIntervals >= maxIntervals) {
+                                        clearInterval(checkTransaction);
+                                        messageElement.find('span.processing-text').text('Completed');  // Update "Processing..." to "Completed"
                                         scrollToBottom();
                                     }
                                 },
                                 error: function() {
-                                    clearInterval(checkTransaction);
-                                    // messageElement.find('span.loading-icon').removeClass('loading-icon').addClass('error-icon');
-                                    messageElement.find('span.processing-text').text('Failed');  // Update "Processing..." to "Failed"
-                                    scrollToBottom();
+                                    completedIntervals += 1;
+                                    if (completedIntervals >= maxIntervals) {
+                                        clearInterval(checkTransaction);
+                                        messageElement.find('span.processing-text').text('Failed');  // Update "Processing..." to "Failed"
+                                        scrollToBottom();
+                                    }
                                 }
                             });
-                        }, 20000);  // Poll every 5 seconds
+                        }, 20000);  // Poll every 20 seconds
                     },
                     error: function() {
-                        //  messageElement.find('span.loading-icon').removeClass('loading-icon').addClass('error-icon');
                         messageElement.find('span.processing-text').text('Failed');  // Update "Processing..." to "Failed"
                         scrollToBottom();
                     }
@@ -155,6 +166,7 @@
             });
         });
     </script>
+    
 </head>
 <body>
 <div class="flex h-screen antialiased text-gray-800">
