@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Song</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        #image_preview {
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+        }
+        #image_preview img {
+            max-width: 100%;
+            max-height: 150px;
+            border-radius: 8px;
+        }
+        #image_preview p {
+            margin-top: 10px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <form id="songForm" method="post" enctype="multipart/form-data">
+        <h1>Upload a New Song</h1>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="music_file">Music File:</label>
+            <input type="file" id="music_file" name="music_file" accept="audio/*" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="song_image">Song Cover Image:</label>
+            <input type="file" id="song_image" name="song_image" accept="image/*" required onchange="previewImage()">
+        </div>
+        
+        <div id="image_preview">
+            <img id="image_preview_img" src="" alt="Image Preview">
+            <p>Image Preview (In Review)</p>
+        </div>
+        
+        <div class="form-group">
+            <label for="music_name">Song Name:</label>
+            <input type="text" id="music_name" name="music_name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="duration">Duration (seconds):</label>
+            <input type="number" id="duration" name="duration" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="language">Language:</label>
+            <input type="text" id="language" name="language" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="artist_name">Artist Name:</label>
+            <input type="text" id="artist_name" name="artist_name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre" required>
+        </div>
+        
+        <button type="submit">Upload Song</button>
+    </form>
+
+    <script>
+        function previewImage() {
+            const file = document.getElementById("song_image").files[0];
+            const preview = document.getElementById("image_preview");
+            const previewImg = document.getElementById("image_preview_img");
+
+            const reader = new FileReader();
+            reader.addEventListener("load", function () {
+                previewImg.src = reader.result;
+                preview.style.display = "block";
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

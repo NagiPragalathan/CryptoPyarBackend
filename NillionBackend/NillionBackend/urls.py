@@ -47,11 +47,19 @@ FavoriteProfile = [
     path('favorites/', create_favorite, name='create_favorite'),
     path('favorites/all/', get_all_favorites, name='get_all_favorites'),
     path('favorites/<str:to_address>/', get_favorite, name='get_favorite'),
+    path('favorites/<str:to_address>/details', get_favorites_details, name='get_favorites_details'),
     path('favorites/<str:to_address>/update/', update_favorite, name='update_favorite'),
     path('favorites/<str:to_address>/delete/', delete_favorite, name='delete_favorite'),
+]
+
+SongUrl = [
+    path('songs/', song_list, name='song_list'),
+    path('musicplayer/', music_player, name='song_list'),
+    path('songs/<str:address>/', upload_song, name='add_song'),
 ]
 
 urlpatterns += profiles
 urlpatterns += chat
 urlpatterns += RejectedProfile
 urlpatterns += FavoriteProfile
+urlpatterns += SongUrl

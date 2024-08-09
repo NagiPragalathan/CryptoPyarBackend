@@ -67,6 +67,7 @@ class Song(models.Model):
     artist_name = models.CharField(max_length=255)
     genre = models.CharField(max_length=100)
     ipfs_song_image = models.CharField(max_length=255)
+    transaction = models.TextField()
 
     def __str__(self):
         return self.music_name
